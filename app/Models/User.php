@@ -37,8 +37,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @var $user
+     */
+    protected $user;
+
     public function appSettings(){
         return $this->hasOne(AppSettings::class);
+    }
+
+    public function set(){
+
     }
 
 }

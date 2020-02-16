@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Services\DateCheck;
 
 class RestApiUserController extends ApiController
 {
@@ -14,9 +15,9 @@ class RestApiUserController extends ApiController
      */
     public function index()
     {
-        $users = User::get;
+        //$users = User::get();
 
-        dd($users);
+        dd(DateCheck::isValid('12/12/2019'));
 
     }
 

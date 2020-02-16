@@ -1,84 +1,82 @@
-<?php
-
 @setup
-  $user = 'fastuser';
-  $timezone = 'Europe/Moscow';
+    $user = 'fastuser';
+    $timezone = 'Europe/Moscow';
 
-  $path = '/var/www/mobile.developing.su';
-  $current = $path . '/current';
+    $path = '/var/www/mobile.developing.su';
+    $current = $path . '/current';
 
-  $repo = "git@github.com:EvgenyFedorov/rest-api-service.git";
-  $branch = 'master';
+    $repo = "git@github.com:EvgenyFedorov/rest-api-service.git";
+    $branch = 'master';
 
-  $chmods = [
+    $chmods = [
     'storage/logs'
-  ];
+    ];
 
-  $date = new datetime('now', new DateTimeZone($timezone));
-  $release = $path . '/releases/' . $date->format('YmdHis');
+    $date = new datetime('now', new DateTimeZone($timezone));
+    $release = $path . '/releases/' . $date->format('YmdHis');
 @endsetup
 
 @servers(['production' => $user . '@5.45.123.200'])
 
 @task('clone', ['on' => $on])
-  mkdir -p {{$release}}
+    mkdir -p {{$release}}
 
-  git clone --depth 1 -b {{$branch}} "{{$repo}}" {{$release}}
+    git clone --depth 1 -b {{$branch}} "{{$repo}}" {{$release}}
 
-  echo "#1 - Repository has been cloned"
+    echo "#1 - Repository has been cloned"
 @endtask
 
 @task('composer', ['on' => $on])
-  composer self-update
+    composer self-update
 
-  cd {{$release}}
+    cd {{$release}}
 
-  composer install --no-interaction --no-dev --prefer-dist
+    composer install --no-interaction --no-dev --prefer-dist
 
-  echo "#2 - Composer dependencies have been installed"
+    echo "#2 - Composer dependencies have been installed"
 @endtask
 
 @task('artisan', ['on' => $on])
-  cd {{$release}}
+    cd {{$release}}
 
-  ln -nfs {{$path}}/.env .env;
-  chgrp -h www-data .env;
+    ln -nfs {{$path}}/.env .env;
+    chgrp -h www-data .env;
 
-  php artisan config:clear
+    php artisan config:clear
 
-  php artisan migrate
-  php artisan clear-compiled --env=production;
-  php artisan optimize --env=production;
+    php artisan migrate
+    php artisan clear-compiled --env=production;
+    php artisan optimize --env=production;
 
-  echo "#3 - Composer dependencies have been installed"
+    echo "#3 - Composer dependencies have been installed"
 @endtask
 
 @task('chmod', ['on' => $on])
-  chgrp -R www-data {{$release}};
-  chmod -R ug+rwx {{$release}};
+    chgrp -R www-data {{$release}};
+    chmod -R ug+rwx {{$release}};
 
-  @foreach ($chmods as $file)
-    chmod R -755 {{$release}}/{{$file}}
+    @foreach ($chmods as $file)
+        chmod R -755 {{$release}}/{{$file}}
 
-    chown -R {{$user}}:www-data {{$release}}/{{$file}}
+        chown -R {{$user}}:www-data {{$release}}/{{$file}}
 
-    echo "Permissions have been set for {{$file}}"
-  @endforeach
+        echo "Permissions have been set for {{$file}}"
+    @endforeach
 
-  echo "#4 - Permissions has been set"
+    echo "#4 - Permissions has been set"
 @endtask
 
 @task('update_symlinks', ['on' => $on])
-  ln -nfs {{$release}} {{$current}};
-  chgrp -h www-data {{$current}};
+    ln -nfs {{$release}} {{$current}};
+    chgrp -h www-data {{$current}};
 
-  echo "#5 - Symlink has been set"
+    echo "#5 - Symlink has been set"
 @endtask
 
-@macro('deploy', ['on' => 'production'])
-  clone
-  composer
-  artisan
-  chmod
-  update_symlinks
-@ensmacro
+@story('deploy')
+    clone
+    composer
+    artisan
+    chmod
+    update_symlinks
+@endstory

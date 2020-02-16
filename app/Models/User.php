@@ -46,6 +46,16 @@ class User extends Authenticatable
         return $this->hasOne(AppSettings::class);
     }
 
+    public static function getArray(){
+
+        return [
+            "test1" => "Хуй",
+            "test2" => 2,
+            "test3" => 3,
+        ];
+
+    }
+
     public function set(){
 
     }

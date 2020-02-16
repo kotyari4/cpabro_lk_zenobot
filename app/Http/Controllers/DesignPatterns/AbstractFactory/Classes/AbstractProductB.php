@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\DesignPatterns\AbstractFactory\Classes;
 
 
-class AbstractProductA
+class AbstractProductB
 {
 
 }

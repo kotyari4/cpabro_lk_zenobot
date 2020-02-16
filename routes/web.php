@@ -15,10 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Route::resource('api', 'User\\Api\\RestApiUserController')->names('restApi');
+Route::resource('api', 'User\\Api\\RestApiUserController')->names('restApi');
 
-Route::group(['prefix' => 'design-patterns'], function () {
-
-    Route::get('abstract-factory', ['uses' => 'DesignPatterns\\AbstractFactoryController@init']);
-
+Route::post('/api/auth', function () {
+    return view('welcome');
 });

@@ -17,6 +17,6 @@ Route::get('/', function () {
 
 Route::resource('api', 'User\\Api\\RestApiUserController')->names('restApi');
 
-Route::post('/api/auth', function () {
-    return view('welcome');
-});
+//Route::post('/api/auth', function () {
+//    return view('welcome');
+//});

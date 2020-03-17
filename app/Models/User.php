@@ -36,4 +36,28 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @var $user
+     */
+    protected $user;
+
+    public function appSettings(){
+        return $this->hasOne(AppSettings::class);
+    }
+
+    public static function getArray(){
+
+        return [
+            "test1" => "Хуй",
+            "test2" => 2,
+            "test3" => 3,
+        ];
+
+    }
+
+    public function set(){
+
+    }
+
 }

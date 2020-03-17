@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +12,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    //return view('welcome');
-    return phpinfo();
+    return view('welcome');
 });
+
+Route::resource('api', 'User\\Api\\RestApiUserController')->names('restApi');
+
+Route::post('/api/auth', function () {
+    return view('welcome');
+});
+Route::get('test', 'HomeController@test');

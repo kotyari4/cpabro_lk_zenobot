@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
 
         });
 
-        $this->call(AccessesSeeder::class);
+        //$this->call(AccessesSeeder::class);
 
     }
 }

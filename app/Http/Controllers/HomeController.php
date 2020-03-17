@@ -1,30 +1,28 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-
-use App\Models\AppClients;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function test(){
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
-        $clients = AppClients::all();
-
-        print "<pre>";
-
-        foreach ($clients as $client){
-
-            $phone = explode(" ", $client['phone']);
-
-            foreach ($phone as $num){
-
-                print $num . "\n";
-
-            }
-
-        }
-
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function index()
+    {
+        return view('home');
     }
 }

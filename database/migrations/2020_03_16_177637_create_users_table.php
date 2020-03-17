@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('name'); // Имя юзера
             $table->unsignedBigInteger('role_id'); // Роль юзера
             $table->string('email')->unique(); // Email юзера
+            $table->string('cpabro_login')->nullable(); // Email юзера
             $table->string('email_verified_code'); // Код подтверждения Email юзера
             $table->string('password'); // Пароль
             $table->integer('enable')->default(0); // Активация юзера
